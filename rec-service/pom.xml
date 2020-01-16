@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.peng.skeleton</groupId>
-	<artifactId>routing-service</artifactId>
+	<artifactId>rec-service</artifactId>
 	<version>0.0.1</version>
-	<name>routing-service</name>
+	<name>rec-service</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

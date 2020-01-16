@@ -1,4 +1,4 @@
-package com.peng.skeleton.routingservice;
+package com.peng.skeleton.recservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,18 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/routing")
+@RequestMapping(path = "/rec")
 @SpringBootApplication
-public class RoutingServiceApplication {
+public class RecServiceApplication {
 
 	@GetMapping(path = "/get")
 	public String getRecommendation() {
-		return "ready to call rec service a";
+		return "[rec-service]This is rec result";
 	}
 
-
 	public static void main(String[] args) {
-		SpringApplication.run(RoutingServiceApplication.class, args);
+		SpringApplication.run(RecServiceApplication.class, args);
 	}
 
 }
