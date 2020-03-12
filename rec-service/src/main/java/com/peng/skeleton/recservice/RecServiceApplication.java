@@ -13,7 +13,7 @@ public class RecServiceApplication {
 
 	@GetMapping(path = "/get")
 	public String getRecommendation() {
-		return "[rec-service]This is rec result";
+		return "[rec-service]This is rec result v1";
 	}
 
 	public static void main(String[] args) {

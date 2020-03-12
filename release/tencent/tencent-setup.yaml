@@ -1,0 +1,12 @@
+# Derived from ./manifests
+# Notice : When namespace delete, all secerets, ingress need to be re-created.
+# kubectl create secret docker-registry skeleton-docker-registry --docker-server='ccr.ccs.tencentyun.com' --docker-username='your qq number' --docker-password='your password' --docker-email='skeleton@qq.com' --namespace=skeleton
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: skeleton
+
+
+
+

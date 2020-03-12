@@ -58,5 +58,66 @@ spec:
   selector:
     app: routing
   sessionAffinity: None
-  type: LoadBalancer
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: rec
+  name: rec
+  namespace: skeleton
+spec:
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: rec
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: rec
+    spec:
+      containers:
+      - image: ccr.ccs.tencentyun.com/skeleton/rec-service-docker:latest
+        imagePullPolicy: Always
+        env:
+        - name: JAVA_OPTIONS
+          value: "-Xmx2500m -Xms1500m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+        name: rec
+        resources:
+          limits:
+            cpu: 200m
+            memory: 400Mi
+          requests:
+            cpu: 200m
+            memory: 400Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: skeleton-docker-registry
+      restartPolicy: Always
+      securityContext: {}
+      serviceAccountName: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rec
+  name: rec
+  namespace: skeleton
+spec:
+  ports:
+  - name: rec-port
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: rec
+  sessionAffinity: None
+  type: NodePort
 

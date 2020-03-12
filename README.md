@@ -1,5 +1,8 @@
 # skeleton
 
+#### address
+- routing service: 106.55.68.112
+- rec service: 106.55.66.37
 #### how to generate a blank project
 - in Intillij, add sub module through SpringBoot
 - https://start.spring.io/  
@@ -25,8 +28,12 @@ curl http://localhost:8080/routing/get
 # kubectl create secret docker-registry skeleton-docker-registry --docker-server='ccr.ccs.tencentyun.com' --docker-username='your qq number' --docker-password='your password' --docker-email='skeleton@qq.com' --namespace=skeleton
 ```
 
-#### how to pull or push docker form tencent cloud
+#### how to pull or push docker form tencent and Ali cloud
 ```
 docker image build -t ccr.ccs.tencentyun.com/skeleton/routing-service-docker .
 docker push ccr.ccs.tencentyun.com/skeleton/routing-service-docker:latest
+
+
+docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service-docker .
+docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service-docker:latest 
 ```

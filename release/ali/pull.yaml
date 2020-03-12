@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: acr-configuration
+  namespace: kube-system
+data:
+    acr-api-version: "2018-12-01"
+    acr-registry: "ai-docker-registry.*.cr.aliyuncs.com,ai-docker-registry-vpc.*.cr.aliyuncs.com"
+    watch-namespace: "all"
+    expiring-threshold: "15m"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: aliyun-acr-credential-helper
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: aliyun-acr-credential-helper
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+      - secrets
+    verbs:
+      - create
+      - update
+      - patch
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: aliyun-acr-credential-helper
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: aliyun-acr-credential-helper
+subjects:
+  - kind: ServiceAccount
+    name: aliyun-acr-credential-helper
+    namespace: kube-system
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: aliyun-acr-credential-helper
+  namespace: kube-system
+  annotations:
+    component.version: "v19.05.22"
+    component.revision: "v1"
+  labels:
+    app: aliyun-acr-credential-helper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aliyun-acr-credential-helper
+  template:
+    metadata:
+      labels:
+        app: aliyun-acr-credential-helper
+    spec:
+      serviceAccountName: aliyun-acr-credential-helper
+      containers:
+      - name: aliyun-acr-credential-helper
+        image: registry.cn-hangzhou.aliyuncs.com/acs/aliyun-acr-credential-helper:v19.05.22.0-e324a5a-aliyun
+        imagePullPolicy: Always
+        env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+        volumeMounts:
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+            type: File
+      nodeSelector:
+        beta.kubernetes.io/os: linux

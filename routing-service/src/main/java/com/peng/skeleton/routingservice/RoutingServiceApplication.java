@@ -1,5 +1,6 @@
 package com.peng.skeleton.routingservice;
 
+import com.peng.skeleton.common.HttpUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,14 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class RoutingServiceApplication {
 
-	@GetMapping(path = "/get")
-	public String getRecommendation() {
-		return "ready to call rec service a";
-	}
+    private static final String REC_SERVICE = "http://rec.default.svc.cluster.local/rec/get";
+
+    @GetMapping(path = "/get")
+    public String getRecommendation() {
+        System.out.println("call rec service");
+        System.out.println(HttpUtil.post("http://www.baidu.com"));
+        return "ready to call rec service a";
+    }
 
 
-	public static void main(String[] args) {
-		SpringApplication.run(RoutingServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RoutingServiceApplication.class, args);
+    }
 
 }

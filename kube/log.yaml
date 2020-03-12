@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: usecase-logging
+  namespace: default
+spec:
+  restartPolicy: Never
+  containers:
+  - name: usecase-logging
+    securityContext:
+      privileged: false
+    image: ccr.ccs.tencentyun.com/prometheus/busybox:latest
+    args: [/bin/sh, -c,
+            'i=0; while true; do echo "$i: $(date)"; i=$((i+1)); sleep 1; done > /tmp/t']
+    volumeMounts:
+    - name: log
+      mountPath: /tmp
+  - name: persitent-log
+    image: ccr.ccs.tencentyun.com/prometheus/busybox:latest
+    args: [/bin/sh, -c, 'tail -f /tmp/t']
+    volumeMounts:
+    - name: log
+      mountPath: /tmp
+  imagePullSecrets:
+  - name: qcloudregistrykey
+  volumes:
+  - name: log
+    emptyDir: {}
+  securityContext:
+    runAsUser: 0
