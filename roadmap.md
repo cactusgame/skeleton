@@ -1,12 +1,15 @@
-## Feautes
-- 服务端
-    - Java云原声开发模式
-    - 使用Spring boot2进行开发
-    - 采用最小化docker size的方式进行打包
-    
-    
-- 测试
-    - 压力测试脚本or工具
+- Spring Boot
+  - [x] The spring boot maven plugin has compile bugs. So I drop the plugin
+
+- Enviroment
+  - [ ] Java云原声开发模式
+  - [ ] cache the mvn depend's jars  
+
+- Service Mesh
+  - [ ] install
+   
+- Testing
+  - Load testing
     
     
     
