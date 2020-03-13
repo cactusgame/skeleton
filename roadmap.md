@@ -1,5 +1,6 @@
 ## Feautes
 - 服务端
+    - Java云原声开发模式
     - 使用Spring boot2进行开发
     - 采用最小化docker size的方式进行打包
     

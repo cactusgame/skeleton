@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class RecServiceApplication {
 
-	@GetMapping(path = "/get")
-	public String getRecommendation() {
-		return "[rec-service]This is rec result v1";
-	}
+    @RequestMapping(path = "/get")
+    public String getRecommendation() {
+        return "[rec-service]This is rec result v1";
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(RecServiceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RecServiceApplication.class, args);
+    }
 
 }

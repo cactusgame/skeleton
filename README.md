@@ -12,11 +12,11 @@ As `routing-service` a example
 - enter the folder `routing-service`
 - build the docker
 ```
-docker image build -t ccr.ccs.tencentyun.com/skeleton/routing-service-docker .
+docker image build -t ccr.ccs.tencentyun.com/skeleton/routing-service .
 ```
 - run the service
 ```
-docker run ccr.ccs.tencentyun.com/skeleton/routing-service-docker
+docker run ccr.ccs.tencentyun.com/skeleton/routing-service
 ```
 - access the service
 ```
@@ -30,10 +30,10 @@ curl http://localhost:8080/routing/get
 
 #### how to pull or push docker form tencent and Ali cloud
 ```
-docker image build -t ccr.ccs.tencentyun.com/skeleton/routing-service-docker .
-docker push ccr.ccs.tencentyun.com/skeleton/routing-service-docker:latest
+docker image build -t ccr.ccs.tencentyun.com/skeleton/routing-service .
+docker push ccr.ccs.tencentyun.com/skeleton/routing-service:latest
 
-
-docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service-docker .
-docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service-docker:latest 
+# routing-service
+docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service .
+docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service:latest 
 ```

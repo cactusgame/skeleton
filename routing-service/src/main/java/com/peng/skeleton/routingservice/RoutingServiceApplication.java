@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class RoutingServiceApplication {
 
-    private static final String REC_SERVICE = "http://rec.default.svc.cluster.local/rec/get";
+//    private static final String REC_SERVICE = "http://rec.default.svc.cluster.local/rec/get";
+    private static final String REC_SERVICE = "http://localhost:8089/rec/get";
 
-    @GetMapping(path = "/get")
+    @RequestMapping(path = "/get")
     public String getRecommendation() {
-        System.out.println("call rec service");
-        System.out.println(HttpUtil.post("http://www.baidu.com"));
-        return "ready to call rec service a";
+        return "[routing]" + HttpUtil.post(REC_SERVICE);
     }
 
 
