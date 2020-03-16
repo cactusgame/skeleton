@@ -1,11 +1,20 @@
-FROM maven:3.5.2-jdk-8-alpine AS MAVEN_BUILD
+# you have to add each sub project at the first to `cache` the jar files
 
-COPY ./ /build
-WORKDIR /build
-RUN mvn clean package -pl routing-service -am
+#COPY ./common/pom.xml /build/common/pom.xml
+#WORKDIR /build/common
+#RUN mvn dependency:go-offline -B install
+
+#COPY ./pom.xml /build/pom.xml
+#COPY ./routing-service/pom.xml /build/routing-service/pom.xml
+#COPY ./rec-service/pom.xml /build/rec-service/pom.xml
+#WORKDIR /build/
+#RUN mvn dependency:go-offline -B
+
+#COPY ./ /build
+#WORKDIR /build
+#RUN mvn package -pl routing-service -am
 
 FROM openjdk:8-jre-alpine
 WORKDIR /app
-#COPY --from=MAVEN_BUILD /build/target/routing-service-0.0.1.jar /app/
-COPY --from=MAVEN_BUILD /build/routing-service/target/routing-service-0.0.1.jar /app/
+COPY ./routing-service/target/routing-service-0.0.1.jar /app/
 ENTRYPOINT ["java", "-jar", "routing-service-0.0.1.jar"]

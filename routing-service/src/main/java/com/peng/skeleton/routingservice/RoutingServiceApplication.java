@@ -12,14 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class RoutingServiceApplication {
 
-//    private static final String REC_SERVICE = "http://rec.default.svc.cluster.local/rec/get";
-    private static final String REC_SERVICE = "http://localhost:8089/rec/get";
+    private static final String REC_SERVICE = "http://rec.skeleton.svc.cluster.local/rec/get";
+//    private static final String REC_SERVICE = "http://localhost:8089/rec/get";
 
     @RequestMapping(path = "/get")
     public String getRecommendation() {
         return "[routing]" + HttpUtil.post(REC_SERVICE);
     }
 
+
+    @RequestMapping(path = "/test")
+    public String getTest() {
+        return "[routing] This is a test message";
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(RoutingServiceApplication.class, args);

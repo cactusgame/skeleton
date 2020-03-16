@@ -6,6 +6,7 @@
         <groupId>com.peng</groupId>
         <artifactId>skeleton</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
 
     <groupId>com.peng.skeleton</groupId>
@@ -25,7 +26,6 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
 
 
 </project>

@@ -1,0 +1,7 @@
+.DS_Store
+.mvn
+.git
+.gitignore
+.idea
+*.swp
+*.jar

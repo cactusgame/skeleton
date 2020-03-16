@@ -9,9 +9,15 @@
 
 ####  how to build and run a docker of service
 - enter the root folder of skeleton
-- build the `routing-service` docker, docker build context = current folder, specific the DOCKERFILE
+- build and push docker images
 ```
-docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service . -f routing-service/Dockerfilek
+# routing service
+docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service:v1 . -f routing-service/Dockerfile
+docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service:v1 
+
+# rec service
+docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v1 . -f rec-service/Dockerfile
+docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v1 
 ```
 - run the service
 ```
@@ -23,12 +29,7 @@ curl http://localhost:8080/routing/get
 ```
 
 #### how to create secret for docker pull
-```
+``
 # kubectl create secret docker-registry skeleton-docker-registry --docker-server='ccr.ccs.tencentyun.com' --docker-username='your qq number' --docker-password='your password' --docker-email='skeleton@qq.com' --namespace=skeleton
 ```
 
-#### how to pull or push docker form Ali cloud
-```
-docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service . -f routing-service/Dockerfilek
-docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service:latest 
-```

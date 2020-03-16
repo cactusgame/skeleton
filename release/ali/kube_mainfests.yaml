@@ -1,3 +1,6 @@
+####################
+# routing
+####################
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -19,19 +22,19 @@ spec:
         app: routing
     spec:
       containers:
-      - image: ai-docker-registry-vpc.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service-docker:latest
+      - image: ai-docker-registry-vpc.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-service:v1
         imagePullPolicy: Always
         env:
         - name: JAVA_OPTIONS
-          value: "-Xmx2500m -Xms1500m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+          value: "-Xmx500m -Xms500m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
         name: routing
         resources:
           limits:
             cpu: 200m
-            memory: 400Mi
+            memory: 600Mi
           requests:
             cpu: 200m
-            memory: 400Mi
+            memory: 600Mi
         securityContext:
           privileged: false
         terminationMessagePath: /dev/termination-log
@@ -51,7 +54,7 @@ metadata:
   namespace: skeleton
 spec:
   ports:
-  - name: routing-port
+  - name: port
     port: 80
     protocol: TCP
     targetPort: 8080
@@ -59,65 +62,99 @@ spec:
     app: routing
   sessionAffinity: None
   type: NodePort
-#---
-#apiVersion: extensions/v1beta1
-#kind: Deployment
-#metadata:
-#  labels:
-#    app: rec
-#  name: rec
-#  namespace: skeleton
-#spec:
-#  revisionHistoryLimit: 5
-#  selector:
-#    matchLabels:
-#      app: rec
-#  strategy:
-#    type: RollingUpdate
-#  template:
-#    metadata:
-#      labels:
-#        app: rec
-#    spec:
-#      containers:
-#      - image: ccr.ccs.tencentyun.com/skeleton/rec-service-docker:latest
-#        imagePullPolicy: Always
-#        env:
-#        - name: JAVA_OPTIONS
-#          value: "-Xmx2500m -Xms1500m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
-#        name: rec
-#        resources:
-#          limits:
-#            cpu: 200m
-#            memory: 400Mi
-#          requests:
-#            cpu: 200m
-#            memory: 400Mi
-#        securityContext:
-#          privileged: false
-#        terminationMessagePath: /dev/termination-log
-#      dnsPolicy: ClusterFirst
-#      imagePullSecrets:
-#      - name: skeleton-docker-registry
-#      restartPolicy: Always
-#      securityContext: {}
-#      serviceAccountName: ""
-#---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  labels:
-#    app: rec
-#  name: rec
-#  namespace: skeleton
-#spec:
-#  ports:
-#  - name: rec-port
-#    port: 80
-#    protocol: TCP
-#    targetPort: 8080
-#  selector:
-#    app: rec
-#  sessionAffinity: None
-#  type: NodePort
-
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: routing-ingress
+  namespace: skeleton
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: routing.c8ec94c31356845f38eed18b2cd7983f1.cn-shenzhen.alicontainer.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: routing
+          servicePort: 80
+####################
+# rec
+####################
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: rec
+  name: rec
+  namespace: skeleton
+spec:
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: rec
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: rec
+    spec:
+      containers:
+      - image: ai-docker-registry-vpc.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v1
+        imagePullPolicy: Always
+        env:
+        - name: JAVA_OPTIONS
+          value: "-Xmx500m -Xms500m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+        name: rec
+        resources:
+          limits:
+            cpu: 200m
+            memory: 600Mi
+          requests:
+            cpu: 200m
+            memory: 600Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: ai-sec2
+      restartPolicy: Always
+      securityContext: {}
+      serviceAccountName: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: rec
+  name: rec
+  namespace: skeleton
+spec:
+  ports:
+  - name: rec-port
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: rec
+  sessionAffinity: None
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: rec-ingress
+    namespace: skeleton
+spec:
+  rules:
+  - host: rec.c8ec94c31356845f38eed18b2cd7983f1.cn-shenzhen.alicontainer.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: rec
+          servicePort: 80

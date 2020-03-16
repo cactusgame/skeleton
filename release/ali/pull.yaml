@@ -1,3 +1,4 @@
+# It failed pull automatically currently...
 apiVersion: v1
 kind: ConfigMap
 metadata:
