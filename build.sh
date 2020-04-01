@@ -7,3 +7,7 @@ docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/routing-serv
 
 docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v1 . -f rec-service/Dockerfile
 docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v1
+
+
+docker image build -t ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v2 . -f rec-service/Dockerfile
+docker push ai-docker-registry.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v2

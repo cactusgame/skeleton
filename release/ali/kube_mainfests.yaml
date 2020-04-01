@@ -26,15 +26,15 @@ spec:
         imagePullPolicy: Always
         env:
         - name: JAVA_OPTIONS
-          value: "-Xmx500m -Xms500m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+          value: "-Xmx200m -Xms200m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
         name: routing
         resources:
           limits:
             cpu: 200m
-            memory: 600Mi
+            memory: 300Mi
           requests:
             cpu: 200m
-            memory: 600Mi
+            memory: 300Mi
         securityContext:
           privileged: false
         terminationMessagePath: /dev/termination-log
@@ -80,7 +80,7 @@ spec:
           serviceName: routing
           servicePort: 80
 ####################
-# rec
+# rec v1
 ####################
 ---
 apiVersion: extensions/v1beta1
@@ -88,34 +88,86 @@ kind: Deployment
 metadata:
   labels:
     app: rec
-  name: rec
+    version: v1
+  name: rec-v1
   namespace: skeleton
 spec:
   revisionHistoryLimit: 5
   selector:
     matchLabels:
       app: rec
+      version: v1
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
         app: rec
+        version: v1
     spec:
       containers:
       - image: ai-docker-registry-vpc.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v1
         imagePullPolicy: Always
         env:
         - name: JAVA_OPTIONS
-          value: "-Xmx500m -Xms500m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+          value: "-Xmx200m -Xms200m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
         name: rec
         resources:
           limits:
             cpu: 200m
-            memory: 600Mi
+            memory: 300Mi
           requests:
             cpu: 200m
-            memory: 600Mi
+            memory: 300Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: ai-sec2
+      restartPolicy: Always
+      securityContext: {}
+      serviceAccountName: ""
+####################
+# rec v2
+####################
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: rec
+    version: v2
+  name: rec-v2
+  namespace: skeleton
+spec:
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: rec
+      version: v2
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: rec
+        version: v2
+    spec:
+      containers:
+      - image: ai-docker-registry-vpc.cn-shenzhen.cr.aliyuncs.com/skeleton/rec-service:v2
+        imagePullPolicy: Always
+        env:
+        - name: JAVA_OPTIONS
+          value: "-Xmx200m -Xms200m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
+        name: rec
+        resources:
+          limits:
+            cpu: 200m
+            memory: 300Mi
+          requests:
+            cpu: 200m
+            memory: 300Mi
         securityContext:
           privileged: false
         terminationMessagePath: /dev/termination-log
