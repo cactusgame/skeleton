@@ -1,12 +1,11 @@
-package com.peng.skeleton.common.dao;
+package com.peng.skeleton.routingservice.dao;
 
-import com.peng.skeleton.common.pojo.User;
+
+import com.peng.skeleton.routingservice.pojo.User;
 
 import java.sql.*;
 
-import static java.util.jar.Pack200.Packer.PASS;
-
-public class UserDao {
+public class TestDao {
     public void createUser(User user) {
 
 //        String sql = "INSERT INTO user (name) VALUES ('foo');\n";
@@ -70,7 +69,6 @@ public class UserDao {
     }
 
     public static void main(String[] args){
-        UserDao dao = new UserDao();
-        dao.createUser(new User());
+        TestDao dao = new TestDao();
     }
 }

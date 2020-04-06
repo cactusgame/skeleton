@@ -1,8 +1,15 @@
-package com.peng.skeleton.common.pojo;
+package com.peng.skeleton.routingservice.pojo;
+
+import com.peng.skeleton.routingservice.core.PersistPrimaryKey;
 
 public class User {
+    @PersistPrimaryKey
     private int id;
     private String name;
+
+    public User(String name){
+        this.name = name;
+    }
 
     public int getId() {
         return id;
