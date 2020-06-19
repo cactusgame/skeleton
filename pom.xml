@@ -14,6 +14,8 @@
         <module>common</module>
         <module>routing-service</module>
         <module>rec-service</module>
+        <module>javaexperiment</module>
+        <module>experiment</module>
     </modules>
 
     <groupId>com.peng</groupId>
